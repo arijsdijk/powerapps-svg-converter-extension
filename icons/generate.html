@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <script src="generate-icons.js"></script>
+    <script>
+        const sizes = [16, 32, 48, 128];
+        sizes.forEach(size => {
+            const link = document.createElement('a');
+            link.download = `icon${size}.png`;
+            link.href = generateIcon(size);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    </script>
+</body>
+</html>
