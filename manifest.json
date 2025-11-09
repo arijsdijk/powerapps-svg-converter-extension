@@ -3,7 +3,11 @@
   "name": "PowerApps SVG Converter",
   "version": "1.0.0",
   "description": "A browser extension to convert SVG files for use in PowerApps",
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "clipboardWrite"],
+  "web_accessible_resources": [{
+    "resources": ["src/output.css"],
+    "matches": ["<all_urls>"]
+  }],
   "action": {
     "default_popup": "src/popup.html",
     "default_icon": {

@@ -2,22 +2,57 @@
 class SVGConverter {
   constructor() {
     this.initialize();
+    this.convertedSVG = null;
   }
 
   initialize() {
     // Add event listeners when the DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
       this.setupEventListeners();
+      this.initializeDarkMode();
+    });
+  }
+
+  initializeDarkMode() {
+    const html = document.documentElement;
+
+    // Function to update the UI based on dark mode state
+    const updateDarkMode = (isDark) => {
+      if (isDark) {
+        html.classList.add('dark');
+        document.body.style.backgroundColor = '#1f2937';
+        document.body.style.color = '#f3f4f6';
+      } else {
+        html.classList.remove('dark');
+        document.body.style.backgroundColor = '#f9fafb';
+        document.body.style.color = '#111827';
+      }
+    };
+
+    // Get system preference
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Initial setup based on system preference
+    updateDarkMode(systemPrefersDark.matches);
+
+    // Listen for system preference changes
+    systemPrefersDark.addEventListener('change', (e) => {
+      updateDarkMode(e.matches);
     });
   }
 
   setupEventListeners() {
     const convertButton = document.getElementById('convertButton');
     const fileInput = document.getElementById('fileInput');
+    const copyButton = document.getElementById('copyButton');
     
     if (convertButton && fileInput) {
       convertButton.addEventListener('click', () => this.handleConversion());
       fileInput.addEventListener('change', (e) => this.handleFileSelect(e));
+    }
+
+    if (copyButton) {
+      copyButton.addEventListener('click', () => this.handleCopy());
     }
   }
 
@@ -45,8 +80,10 @@ class SVGConverter {
     // Convert SVG to PowerApps format
     const convertedSVG = this.convertSVGForPowerApps(svgElement);
     
-    // Display the converted SVG
-    document.getElementById('outputText').value = convertedSVG;
+    // Store the converted SVG in a data attribute and display it
+    const outputText = document.getElementById('outputText');
+    outputText.value = convertedSVG;
+    outputText.dataset.convertedSvg = convertedSVG;
   }
 
   convertSVGForPowerApps(svgElement) {
@@ -56,13 +93,16 @@ class SVGConverter {
     // Remove any unnecessary attributes
     this.cleanupSVG(clone);
     
-    // Convert to string and format for PowerApps
+    // Convert to string
     let svgString = clone.outerHTML;
     
-    // Escape special characters
-    svgString = svgString.replace(/"/g, '""');
+    // Replace double quotes with single quotes
+    svgString = svgString.replace(/"/g, "'");
     
-    return svgString;
+    // Create the Power Apps compatible format
+    const powerAppsFormat = `"data:image/svg+xml;utf8, "&EncodeUrl("${svgString}")`;
+    
+    return powerAppsFormat;
   }
 
   cleanupSVG(element) {
@@ -77,6 +117,50 @@ class SVGConverter {
     Array.from(element.children).forEach(child => {
       this.cleanupSVG(child);
     });
+  }
+
+  async handleCopy() {
+    const outputText = document.getElementById('outputText');
+    const copyButton = document.getElementById('copyButton');
+    const textToCopy = outputText.value;
+
+    if (!textToCopy) {
+      copyButton.textContent = 'Nothing to copy';
+      copyButton.style.backgroundColor = '#f44336';
+      setTimeout(() => {
+        copyButton.textContent = 'Copy to Clipboard';
+        copyButton.style.backgroundColor = '#0078d4';
+      }, 2000);
+      return;
+    }
+
+    try {
+      // Create a temporary textarea element
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = textToCopy;
+      document.body.appendChild(tempTextArea);
+      
+      // Select and copy the text
+      tempTextArea.select();
+      document.execCommand('copy');
+      
+      // Remove the temporary element
+      document.body.removeChild(tempTextArea);
+
+      // Visual feedback
+      copyButton.textContent = 'Copied!';
+      copyButton.style.backgroundColor = '#4CAF50';
+    } catch (err) {
+      console.error('Copy failed:', err);
+      copyButton.textContent = 'Failed to copy';
+      copyButton.style.backgroundColor = '#f44336';
+    }
+
+    // Reset button after 2 seconds
+    setTimeout(() => {
+      copyButton.textContent = 'Copy to Clipboard';
+      copyButton.style.backgroundColor = '#0078d4';
+    }, 2000);
   }
 }
 

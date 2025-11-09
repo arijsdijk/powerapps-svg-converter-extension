@@ -1,0 +1,11 @@
+{
+  "name": "powerapps-svg-converter-extension",
+  "version": "1.0.0",
+  "description": "A browser extension to convert SVG files for use in PowerApps",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/styles.css -o ./src/output.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.5"
+  }
+}
