@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>PowerApps SVG Converter</title>
+  <link href="output.css" rel="stylesheet">
   <style>
     /* Base styles */
     body {
@@ -67,7 +68,7 @@
     .rounded-lg { border-radius: 0.5rem; }
     .border { border-width: 1px; }
     .border-gray-200 { border-color: #E5E7EB; }
-    .min-h-[100px] { min-height: 100px; }
+    .min-h-100 { min-height: 100px; }
     .flex { display: flex; }
     .items-center { align-items: center; }
     .justify-center { justify-content: center; }
@@ -143,9 +144,11 @@
   </style>
 </head>
 <body class="w-[400px] p-6 bg-gray-50">
+
   <div class="mb-6">
     <h2 class="text-2xl font-semibold text-gray-800">PowerApps SVG Converter</h2>
   </div>
+
   <div class="space-y-6">
     
     <div class="space-y-2">
@@ -155,7 +158,7 @@
     
     <div class="space-y-2">
       <h3 class="text-lg font-medium text-gray-700">Preview</h3>
-      <div id="svgPreview" class="p-4 bg-white border border-gray-200 rounded-lg min-h-[100px] flex items-center justify-center"></div>
+      <div id="svgPreview" class="p-4 bg-white border border-gray-200 rounded-lg min-h-100 flex items-center justify-center"></div>
     </div>
     
     <button id="convertButton" class="btn w-full">Convert for PowerApps</button>

@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "A browser extension to convert SVG files for use in PowerApps",
   "scripts": {
-    "build:css": "tailwindcss -i ./src/styles.css -o ./src/output.css --watch"
+    "build:css": "postcss src/styles.css -o src/output.css"
   },
   "devDependencies": {
-    "tailwindcss": "^3.3.5"
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^3.4.18"
   }
 }
