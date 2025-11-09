@@ -43,6 +43,19 @@
       border-color: #4b5563;
     }
 
+    html.dark #refreshButton {
+      color: #9ca3af;
+    }
+
+    html.dark #refreshButton:hover {
+      color: #e5e7eb;
+    }
+
+    #svgPreview svg {
+      width: 48px;
+      height: 48px;
+    }
+
     /* Element styles */
     .btn {
       transition: background-color 0.3s;
@@ -141,30 +154,103 @@
       align-items: center;
       justify-content: center;
     }
+
+    /* Toggle Button Group */
+    .toggle-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      background-color: #f3f4f6;
+      padding: 2px;
+      border-radius: 8px;
+      gap: 2px;
+    }
+
+    .toggle-button {
+      padding: 8px 16px;
+      text-align: center;
+      background: none;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #6b7280;
+    }
+
+    .toggle-button.active {
+      background-color: white;
+      color: #2563eb;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Dark mode support */
+    html.dark .toggle-container {
+      background-color: #374151;
+    }
+
+    html.dark .toggle-button {
+      color: #9ca3af;
+    }
+
+    html.dark .toggle-button.active {
+      background-color: #1f2937;
+      color: #60a5fa;
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
-<body class="w-[400px] p-6 bg-gray-50">
+<body class="w-[400px] p-4 bg-gray-50">
 
-  <div class="mb-6">
-    <h2 class="text-2xl font-semibold text-gray-800">PowerApps SVG Converter</h2>
+
+  <div class="mb-6 flex justify-between items-center">
+    <h2 class="text-2xl font-semibold text-gray-600">PowerApps SVG Converter</h2>
+    <button id="refreshButton" class="p-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+        <path d="M21 3v5h-5"></path>
+        <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+        <path d="M3 21v-5h5"></path>
+      </svg>
+    </button>
   </div>
 
-  <div class="space-y-6">
-    
-    <div class="space-y-2">
-      <label for="fileInput" class="block text-sm font-medium text-gray-700">Choose SVG File</label>
+  <div class="space-y-4">
+
+    <!-- Toggle Button Group -->
+    <div class="toggle-container">
+      <button id="uploadTab" class="toggle-button active">Upload SVG</button>
+      <button id="pasteTab" class="toggle-button">Paste SVG</button>
+    </div>
+
+    <!-- Upload Section -->
+    <div id="uploadSection" class="space-y-2">
+      <label for="fileInput" class="block text-sm font-medium text-gray-600">Choose SVG File</label>
       <input type="file" id="fileInput" accept=".svg" class="input-file">
+    </div>
+
+    <!-- Paste Section -->
+    <div id="pasteSection" class="space-y-2 hidden">
+      <label for="svgInput" class="block text-sm font-medium text-gray-600">Paste SVG Code</label>
+      <textarea 
+        id="svgInput" 
+        placeholder="Paste your SVG code here..." 
+        class="textarea"
+        rows="4"
+      ></textarea>
     </div>
     
     <div class="space-y-2">
-      <h3 class="text-lg font-medium text-gray-700">Preview</h3>
+      <h3 class="text-sm font-medium text-gray-600">Preview</h3>
       <div id="svgPreview" class="p-4 bg-white border border-gray-200 rounded-lg min-h-100 flex items-center justify-center"></div>
     </div>
     
-    <button id="convertButton" class="btn w-full">Convert for PowerApps</button>
-    
     <div class="space-y-2">
-      <h3 class="text-lg font-medium text-gray-700">Converted SVG</h3>
+      <h3 class="text-sm font-medium text-gray-600">Converted SVG</h3>
       <textarea 
         id="outputText" 
         readonly 

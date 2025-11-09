@@ -42,17 +42,134 @@ class SVGConverter {
   }
 
   setupEventListeners() {
-    const convertButton = document.getElementById('convertButton');
     const fileInput = document.getElementById('fileInput');
     const copyButton = document.getElementById('copyButton');
-    
-    if (convertButton && fileInput) {
-      convertButton.addEventListener('click', () => this.handleConversion());
+    const uploadTab = document.getElementById('uploadTab');
+    const pasteTab = document.getElementById('pasteTab');
+    const svgInput = document.getElementById('svgInput');
+    const refreshButton = document.getElementById('refreshButton');
+
+    if (fileInput) {
       fileInput.addEventListener('change', (e) => this.handleFileSelect(e));
     }
 
     if (copyButton) {
       copyButton.addEventListener('click', () => this.handleCopy());
+    }
+
+    if (uploadTab && pasteTab) {
+      uploadTab.addEventListener('click', () => this.switchTab('upload'));
+      pasteTab.addEventListener('click', () => this.switchTab('paste'));
+    }
+
+    if (svgInput) {
+      svgInput.addEventListener('input', () => {
+        // Use a small delay to ensure we have the complete pasted content
+        clearTimeout(this.pasteTimeout);
+        this.pasteTimeout = setTimeout(() => this.handlePastedSVG(), 100);
+      });
+    }
+
+    if (refreshButton) {
+      refreshButton.addEventListener('click', () => this.handleRefresh());
+    }
+  }
+
+  handleRefresh() {
+    // Reset file input
+    const fileInput = document.getElementById('fileInput');
+    if (fileInput) {
+      fileInput.value = '';
+    }
+
+    // Reset SVG input textarea
+    const svgInput = document.getElementById('svgInput');
+    if (svgInput) {
+      svgInput.value = '';
+    }
+
+    // Reset preview
+    const previewContainer = document.getElementById('svgPreview');
+    if (previewContainer) {
+      previewContainer.innerHTML = '';
+    }
+
+    // Reset output
+    const outputText = document.getElementById('outputText');
+    if (outputText) {
+      outputText.value = '';
+    }
+
+    // Reset to upload tab
+    this.switchTab('upload');
+  }
+
+  switchTab(tab) {
+    const uploadTab = document.getElementById('uploadTab');
+    const pasteTab = document.getElementById('pasteTab');
+    const uploadSection = document.getElementById('uploadSection');
+    const pasteSection = document.getElementById('pasteSection');
+    
+    // Reset form data
+    const fileInput = document.getElementById('fileInput');
+    const svgInput = document.getElementById('svgInput');
+    const previewContainer = document.getElementById('svgPreview');
+    const outputText = document.getElementById('outputText');
+
+    // Clear all inputs and outputs
+    if (fileInput) fileInput.value = '';
+    if (svgInput) svgInput.value = '';
+    if (previewContainer) previewContainer.innerHTML = '';
+    if (outputText) outputText.value = '';
+
+    // Switch tabs
+    if (tab === 'upload') {
+      uploadTab.classList.add('active');
+      uploadTab.classList.remove('inactive');
+      pasteTab.classList.remove('active');
+      uploadSection.classList.remove('hidden');
+      pasteSection.classList.add('hidden');
+    } else {
+      pasteTab.classList.add('active');
+      pasteTab.classList.remove('inactive');
+      uploadTab.classList.remove('active');
+      pasteSection.classList.remove('hidden');
+      uploadSection.classList.add('hidden');
+    }
+  }
+
+  handlePastedSVG() {
+    const svgInput = document.getElementById('svgInput');
+    const previewContainer = document.getElementById('svgPreview');
+    const outputText = document.getElementById('outputText');
+    const content = svgInput.value.trim();
+    
+    // Clear preview and output if there's no content
+    if (!content) {
+      previewContainer.innerHTML = '';
+      outputText.value = '';
+      return;
+    }
+
+    // Only process if it looks like SVG content
+    if (content.includes('<svg')) {
+      previewContainer.innerHTML = content;
+      
+      const svgElement = previewContainer.querySelector('svg');
+      if (svgElement) {
+        svgElement.style.width = '48px';
+        svgElement.style.height = '48px';
+        svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        
+        const convertedSvg = this.convertSVGForPowerApps(svgElement);
+        outputText.value = convertedSvg;
+      } else {
+        previewContainer.innerHTML = '';
+        outputText.value = '';
+      }
+    } else {
+      previewContainer.innerHTML = '';
+      outputText.value = '';
     }
   }
 
@@ -62,7 +179,24 @@ class SVGConverter {
       const reader = new FileReader();
       reader.onload = (e) => {
         const content = e.target.result;
-        document.getElementById('svgPreview').innerHTML = content;
+        const previewContainer = document.getElementById('svgPreview');
+        previewContainer.innerHTML = content;
+        
+        // Get the SVG element
+        const svgElement = previewContainer.querySelector('svg');
+        if (svgElement) {
+          // Set width and height to 48px while preserving aspect ratio
+          svgElement.style.width = '48px';
+          svgElement.style.height = '48px';
+          svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+          
+          // Automatically trigger the conversion
+          const convertedSvg = this.convertSVGForPowerApps(svgElement);
+          document.getElementById('outputText').value = convertedSvg;
+          
+          // Automatically trigger the conversion
+          this.convertSvg(content);
+        }
       };
       reader.readAsText(file);
     } else {
