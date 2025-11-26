@@ -48,6 +48,7 @@ class SVGConverter {
     const pasteTab = document.getElementById('pasteTab');
     const svgInput = document.getElementById('svgInput');
     const refreshButton = document.getElementById('refreshButton');
+    const infoButton = document.getElementById('infoButton');
 
     if (fileInput) {
       fileInput.addEventListener('change', (e) => this.handleFileSelect(e));
@@ -72,6 +73,12 @@ class SVGConverter {
 
     if (refreshButton) {
       refreshButton.addEventListener('click', () => this.handleRefresh());
+    }
+
+    if (infoButton) {
+      infoButton.addEventListener('click', () => {
+        location.href = 'info.html';
+      });
     }
   }
 

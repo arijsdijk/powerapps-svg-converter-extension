@@ -591,7 +591,7 @@ video {
   background-color: rgb(16 110 190 / var(--tw-bg-opacity, 1));
 }
 .textarea {
-  height: 10rem;
+  height: 7rem;
   width: 100%;
   resize: vertical;
   border-radius: 0.5rem;

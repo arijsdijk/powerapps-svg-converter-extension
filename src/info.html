@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PowerApps SVG Converter - Info</title>
+  <link href="output.css" rel="stylesheet">
+  <link href="popup-styles.css" rel="stylesheet">
+  <script>
+    // Dark mode initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      const html = document.documentElement;
+      
+      const updateDarkMode = (isDark) => {
+        if (isDark) {
+          html.classList.add('dark');
+          document.body.style.backgroundColor = '#1f2937';
+          document.body.style.color = '#f3f4f6';
+        } else {
+          html.classList.remove('dark');
+          document.body.style.backgroundColor = '#f9fafb';
+          document.body.style.color = '#111827';
+        }
+      };
+
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+      updateDarkMode(systemPrefersDark.matches);
+      
+      systemPrefersDark.addEventListener('change', (e) => {
+        updateDarkMode(e.matches);
+      });
+    });
+  </script>
+</head>
+<body class="w-[400px] p-6 bg-gray-50">
+
+  <div class="mb-6 flex justify-between items-center">
+    <h2 class="text-2xl font-semibold text-gray-600">Information</h2>
+    <a href="popup.html" class="back-button" style="text-decoration: none;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"></path>
+        <path d="M12 19l-7-7 7-7"></path>
+      </svg>
+    </a>
+  </div>
+
+  <div class="space-y-4">
+    <div class="info-card">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">About This Extension</h3>
+      <p class="text-sm text-gray-600">
+        PowerApps SVG Converter helps you convert SVG files into a format compatible with Microsoft PowerApps.
+      </p>
+    </div>
+
+    <div class="info-card">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">How to Use</h3>
+      <div class="text-sm text-gray-600 space-y-2">
+        <p><strong>Upload SVG:</strong></p>
+        <ul>
+          <li>Select an SVG file from your computer</li>
+          <li>Preview and converted code appear automatically</li>
+          <li>Click "Copy to Clipboard" to use in PowerApps</li>
+        </ul>
+        <p><strong>Paste SVG:</strong></p>
+        <ul>
+          <li>Switch to the "Paste SVG" tab</li>
+          <li>Paste your SVG code</li>
+          <li>Preview and converted code appear automatically</li>
+          <li>Click "Copy to Clipboard" to use in PowerApps</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">Features</h3>
+      <ul class="text-sm text-gray-600">
+        <li>Automatic SVG conversion</li>
+        <li>Live preview</li>
+        <li>Upload or paste SVG code</li>
+        <li>One-click copy to clipboard</li>
+        <li>Dark mode support</li>
+      </ul>
+    </div>
+
+
+    <div class="info-card">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">Version</h3>
+      <ul class="text-sm text-gray-600">
+        <span>1.0.0</span>
+    </div>
+
+  
+
+  </div>
+
+</body>
+</html>
