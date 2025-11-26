@@ -200,9 +200,6 @@ class SVGConverter {
           // Automatically trigger the conversion
           const convertedSvg = this.convertSVGForPowerApps(svgElement);
           document.getElementById('outputText').value = convertedSvg;
-          
-          // Automatically trigger the conversion
-          this.convertSvg(content);
         }
       };
       reader.readAsText(file);
