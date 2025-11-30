@@ -12,7 +12,8 @@ PowerApps SVG Converter is a simple and intuitive browser extension designed to 
 - **Paste SVG Code**: Paste SVG code directly into the extension
 - **Live Preview**: See a real-time preview of your SVG before conversion
 - **One-Click Conversion**: Automatically converts SVG to PowerApps-compatible format
-- **Copy to Clipboard**: Easily copy the converted code with a single click
+- **Copy**: Easily copy the converted code with a single click to use in a image control
+- **Copy YAML**: Easily copy the converted code to a direct Image control
 - **Dark Mode Support**: Automatically adapts to your system's dark mode preference
 - **Clean Output**: Removes unnecessary attributes that might cause issues in PowerApps
 
@@ -43,7 +44,7 @@ PowerApps SVG Converter is a simple and intuitive browser extension designed to 
 2. Make sure the "Upload SVG" tab is selected
 3. Click "Choose File" and select an SVG file from your computer
 4. The preview and converted code will appear automatically
-5. Click "Copy to Clipboard" to copy the PowerApps-compatible code
+5. Click "Copy to Clipboard" to copy the PowerApps-compatible code, or click "Copy YAML" to copy in YAML format
 
 ### Paste SVG Code
 
@@ -51,12 +52,13 @@ PowerApps SVG Converter is a simple and intuitive browser extension designed to 
 2. Switch to the "Paste SVG" tab
 3. Paste your SVG code into the text area
 4. The preview and converted code will appear automatically
-5. Click "Copy to Clipboard" to copy the PowerApps-compatible code
+5. Click "Copy to Clipboard" to copy the PowerApps-compatible code, or click "Copy YAML" to copy in YAML format
 
 ### Using in PowerApps
 
 After copying the converted SVG code, you can use it in PowerApps by:
 
+**Option 1: Direct Copy**
 1. Add an Image control to your Canvas App
 2. Set the `Image` property to the copied code
 3. The SVG will render in your PowerApps application
@@ -64,6 +66,22 @@ After copying the converted SVG code, you can use it in PowerApps by:
 Example output format:
 ```
 "data:image/svg+xml;utf8, "&EncodeUrl("<svg>...</svg>")
+```
+
+**Option 2: YAML Import (Copy YAML)**
+1. Copy the YAML format from the extension
+2. In PowerApps Studio, paste the YAML code to import the Image control with the SVG
+3. The Image control will be created automatically with the SVG already configured
+
+Example YAML format:
+```yaml
+- Image:
+    Control: Image@2.2.3
+    Properties:
+      Image: |-
+        ="data:image/svg+xml;utf8, "&EncodeUrl("<svg>...</svg>")
+      X: =40
+      Y: =40
 ```
 
 ## Support

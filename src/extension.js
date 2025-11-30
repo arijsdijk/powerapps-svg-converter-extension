@@ -271,7 +271,7 @@ class SVGConverter {
       copyButton.textContent = 'Nothing to copy';
       copyButton.style.backgroundColor = '#f44336';
       setTimeout(() => {
-        copyButton.textContent = 'Copy to Clipboard';
+        copyButton.textContent = 'Copy';
         copyButton.style.backgroundColor = '#F24849';
       }, 2000);
       return;
