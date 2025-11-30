@@ -238,7 +238,7 @@ textarea:focus {
 
 /* Dark mode support */
 html.dark .toggle-container {
-  background-color: #374151;
+  background-color: #1f2937;
 }
 
 html.dark .toggle-button {
@@ -246,7 +246,7 @@ html.dark .toggle-button {
 }
 
 html.dark .toggle-button.active {
-  background-color: #1f2937;
+  background-color: #374151;
   color: #F24849;
 }
 

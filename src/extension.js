@@ -44,6 +44,7 @@ class SVGConverter {
   setupEventListeners() {
     const fileInput = document.getElementById('fileInput');
     const copyButton = document.getElementById('copyButton');
+    const copyYamlButton = document.getElementById('copyYamlButton');
     const uploadTab = document.getElementById('uploadTab');
     const pasteTab = document.getElementById('pasteTab');
     const svgInput = document.getElementById('svgInput');
@@ -56,6 +57,10 @@ class SVGConverter {
 
     if (copyButton) {
       copyButton.addEventListener('click', () => this.handleCopy());
+    }
+
+    if (copyYamlButton) {
+      copyYamlButton.addEventListener('click', () => this.handleCopyYaml());
     }
 
     if (uploadTab && pasteTab) {
@@ -267,7 +272,7 @@ class SVGConverter {
       copyButton.style.backgroundColor = '#f44336';
       setTimeout(() => {
         copyButton.textContent = 'Copy to Clipboard';
-        copyButton.style.backgroundColor = '#0078d4';
+        copyButton.style.backgroundColor = '#F24849';
       }, 2000);
       return;
     }
@@ -297,7 +302,64 @@ class SVGConverter {
     // Reset button after 2 seconds
     setTimeout(() => {
       copyButton.textContent = 'Copy to Clipboard';
-      copyButton.style.backgroundColor = '#0078d4';
+      copyButton.style.backgroundColor = '#F24849';
+    }, 2000);
+  }
+
+  async handleCopyYaml() {
+    const outputText = document.getElementById('outputText');
+    const copyYamlButton = document.getElementById('copyYamlButton');
+    const convertedSvg = outputText.value;
+
+    if (!convertedSvg) {
+      copyYamlButton.textContent = 'Nothing to copy';
+      copyYamlButton.style.backgroundColor = '#f44336';
+      setTimeout(() => {
+        copyYamlButton.textContent = 'Copy YAML';
+        copyYamlButton.style.backgroundColor = '#F24849';
+      }, 2000);
+      return;
+    }
+
+    // The convertedSvg already contains the full PowerApps format
+    // Create YAML format with the converted SVG
+    // Indent the converted SVG with 8 spaces for proper YAML formatting
+    const indentedSvg = convertedSvg.split('\n').map(line => '        ' + line).join('\n');
+    
+    const yamlOutput = `- Image:
+    Control: Image@2.2.3
+    Properties:
+      Image: |-
+        =${indentedSvg.trim()}
+      X: =40
+      Y: =40`;
+
+    try {
+      // Create a temporary textarea element
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = yamlOutput;
+      document.body.appendChild(tempTextArea);
+      
+      // Select and copy the text
+      tempTextArea.select();
+      document.execCommand('copy');
+      
+      // Remove the temporary element
+      document.body.removeChild(tempTextArea);
+
+      // Visual feedback
+      copyYamlButton.textContent = 'Copied!';
+      copyYamlButton.style.backgroundColor = '#4CAF50';
+    } catch (err) {
+      console.error('Copy failed:', err);
+      copyYamlButton.textContent = 'Failed to copy';
+      copyYamlButton.style.backgroundColor = '#f44336';
+    }
+
+    // Reset button after 2 seconds
+    setTimeout(() => {
+      copyYamlButton.textContent = 'Copy YAML';
+      copyYamlButton.style.backgroundColor = '#F24849';
     }, 2000);
   }
 }
