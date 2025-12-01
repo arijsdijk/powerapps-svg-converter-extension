@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PowerApps SVG Converter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A browser extension to convert SVG files for use in PowerApps Canvas Apps",
   "permissions": ["activeTab", "clipboardWrite"],
   "web_accessible_resources": [{
