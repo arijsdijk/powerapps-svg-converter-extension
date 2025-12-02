@@ -1,10 +1,10 @@
 # PowerApps SVG Converter Extension
 
-A browser extension that converts SVG files into a format compatible with Microsoft PowerApps Canvas Apps.
+A browser extension that converts SVG files into a format compatible with Canvas Apps.
 
 ## Description
 
-PowerApps SVG Converter is a simple and intuitive browser extension designed to help PowerApps developers easily convert SVG images for use in Canvas Apps. The extension converts SVG code to the `data:image/svg+xml` format with proper encoding, making it ready to use in PowerApps Image controls.
+Power Apps SVG Converter is a simple and intuitive browser extension designed to help PowerApps developers easily convert SVG images for use in Canvas Apps. The extension converts SVG code to the `data:image/svg+xml` format with proper encoding, making it ready to use in PowerApps Image controls.
 
 ## Features
 
