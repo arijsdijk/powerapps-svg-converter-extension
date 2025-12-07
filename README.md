@@ -117,3 +117,7 @@ This project is open source. See the repository for license details.
 ## Version
 
 Current version: **1.0.0**
+
+## Privacy policy
+
+For more information about your privacy [click here](privacy.md)
